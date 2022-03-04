@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "author": "LL",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts",
+    "start": "ts-node src/index.ts",
     "compile": "tsc"
   },
   "private": true,

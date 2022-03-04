@@ -1,4 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
-console.log('hello world')
+import { Container } from 'typedi';
+import { Cli } from './cli/cli';
 
+(() => {
+    Container.get(Cli).run();
+})();

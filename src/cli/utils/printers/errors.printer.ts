@@ -11,6 +11,7 @@ export class ErrorsPrinter {
     public noArgsPrinter(): void {
         this.baseErrorPrinter();
         this.prettyPrinter.prettyPrint('No args !', true, LogLevelsEnum.ERROR);
+        this.prettyPrinter.prettyPrint('Please refer to the helper description below.', true, LogLevelsEnum.ERROR);
         this.baseUsagePrinter();
     }
 

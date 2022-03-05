@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { LogLevelsEnum } from '../../enums/log-levels.enum';
 import { CliColorsEnum } from '../../enums/cli-colors.enum';
-import { TITLE_1, TITLE_SMALL } from '../title';
+import { TITLE_BIG, TITLE_SMALL } from '../title';
 
 @Service()
 export class PrettyPrinter {
@@ -36,8 +36,8 @@ export class PrettyPrinter {
     }
 
     public cliTitlePrinter(): void {
-        if (this.lineAvailableLength >= TITLE_1[0].length) {
-            this.prettyPrint(TITLE_1, true, LogLevelsEnum.FANCY);
+        if (this.lineAvailableLength >= TITLE_BIG[0].length) {
+            this.prettyPrint(TITLE_BIG, true, LogLevelsEnum.FANCY);
         } else {
             this.prettyPrint(TITLE_SMALL, true, LogLevelsEnum.FANCY);
         }

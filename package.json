@@ -12,6 +12,7 @@
 	"private": true,
 	"license": "UNLICENSED",
 	"dependencies": {
+		"axios": "^0.26.0",
 		"reflect-metadata": "^0.1.13",
 		"typedi": "^0.10.0"
 	},

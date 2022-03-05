@@ -30,34 +30,34 @@ export class PrettyPrinter {
         }
     }
 
-    public prettyPrint(toPrint: string | string[], emptyLine?: boolean, logLevel?: LogLevelsEnum): void {
+    public prettyPrint(toPrint: string | string[], emptyLine?: boolean, logLevel?: LogLevelsEnum, tabs?: number): void {
 
         this.setPrinterParams(logLevel);
 
         if (Array.isArray(toPrint)) {
             toPrint.forEach((line: string) => {
-                this.print(line);
+                this.print(line, tabs || 0);
             });
         } else {
-            this.print(toPrint);
+            this.print(toPrint, tabs || 0);
         }
         if (emptyLine) {
             this.emptyLinePrinter();
         }
     }
 
-    private print(toPrint: string): void { // todo add tabs option
+    private print(toPrint: string, tabs: number): void {
         if (toPrint.length < this.lineAvailableLength) {
-            this.linePrinter(toPrint);
+            this.linePrinter(this.tabsGenerator(tabs) + toPrint);
         } else {
             this.lineChunck(toPrint).forEach((chunk: string) => {
-                this.linePrinter(chunk);
+                this.linePrinter(this.tabsGenerator(tabs) + chunk);
             });
         }
     }
 
     private linePrinter(line: string): void {
-        console.log(`${ this.lineDelimiter() }  ${ this.baseColor }> ${ line }${ this.resetColor }`);
+        console.log(`${ this.lineDelimiter() } ${ this.baseColor }> ${ line }${ this.resetColor }`);
     }
 
     private lineChunck(line: string): string[] {
@@ -67,6 +67,10 @@ export class PrettyPrinter {
 
     private lineDelimiter(): string {
         return `${ this.decorationColor }║${ this.resetColor }`;
+    }
+
+    private tabsGenerator(tabsNbr: number): string {
+        return '    '.repeat(tabsNbr);
     }
 
     private setPrinterParams(logLevel?: LogLevelsEnum): void {

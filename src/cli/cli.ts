@@ -3,6 +3,7 @@ import { Service } from 'typedi';
 import { CliArgsParserService } from './services/cli-args-parser.service';
 import { ErrorsPrinter } from './utils/printers/errors.printer';
 import { PrettyPrinter } from './utils/printers/pretty.printer';
+import { noArgsError } from './utils/errors/no-args.error';
 
 @Service()
 export class Cli {
@@ -15,10 +16,10 @@ export class Cli {
         this.prettyPrinter.prettyPrint('Hello world from base cli app !');
 
         const params = this.cliArgsParserService.getParsedArgs();
-        this.prettyPrinter.prettyPrint(['Current cli params: ', ...params]);
+        this.prettyPrinter.prettyPrint(['Current cli params: ', ...params], true);
 
         if (!params.length) {
-            this.errorsPrinter.noArgsPrinter();
+            this.errorsPrinter.errorPrinter(noArgsError);
         } else {
             this.prettyPrinter.prettyPrint('let\'s run the CLI !');
         }

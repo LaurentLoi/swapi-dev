@@ -32,7 +32,7 @@ export class PrettyPrinter {
 
     public prettyPrint(toPrint: string | string[], emptyLine?: boolean, logLevel?: LogLevelsEnum): void {
 
-        this.setBaseParams(logLevel);
+        this.setPrinterParams(logLevel);
 
         if (Array.isArray(toPrint)) {
             toPrint.forEach((line: string) => {
@@ -46,7 +46,7 @@ export class PrettyPrinter {
         }
     }
 
-    private print(toPrint: string): void {
+    private print(toPrint: string): void { // todo add tabs option
         if (toPrint.length < this.lineAvailableLength) {
             this.linePrinter(toPrint);
         } else {
@@ -61,6 +61,7 @@ export class PrettyPrinter {
     }
 
     private lineChunck(line: string): string[] {
+        // todo not working !
         return (line.match(`/.{1,${ this.lineAvailableLength }}/g`) || ['']);
     }
 
@@ -68,7 +69,7 @@ export class PrettyPrinter {
         return `${ this.decorationColor }║${ this.resetColor }`;
     }
 
-    private setBaseParams(logLevel?: LogLevelsEnum): void {
+    private setPrinterParams(logLevel?: LogLevelsEnum): void {
         if (logLevel && logLevel !== LogLevelsEnum.INFO) {
             this.logLevel = logLevel;
         } else {

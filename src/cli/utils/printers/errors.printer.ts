@@ -4,12 +4,9 @@ import { Service } from 'typedi';
 import { PrettyPrinter } from './pretty.printer';
 import { LogLevelsEnum } from '../../enums/log-levels.enum';
 import { ICliError } from '../../models/error.model';
-import { CliColorsEnum } from '../../enums/cli-colors.enum';
 
 @Service()
 export class ErrorsPrinter {
-
-    private colors = CliColorsEnum;
 
     constructor(private prettyPrinter: PrettyPrinter) {}
 
@@ -31,7 +28,7 @@ export class ErrorsPrinter {
     }
 
     private baseUsagePrinter(): void {
-        this.prettyPrinter.prettyPrint('Here are the base cli commands: ', true); // todo add app desc & title
+        this.prettyPrinter.prettyPrint('Here are the base cli commands: ', true);
         commandsContainer.forEach((command: ICommand, index: number) => {
             this.commandPrinter(command, index + 1);
             command.optionalCommands?.forEach((subCommand: ICommand, subIndex: number) => {
@@ -41,14 +38,14 @@ export class ErrorsPrinter {
     }
 
     private commandPrinter(command: ICommand, startLine: number | string, tab?: number): void {
-        this.prettyPrinter.prettyPrint(`${ startLine }: ${ this.colors.GREEN }${ command.command }${ this.colors.RESET }`, false,
-            LogLevelsEnum.INFO, tab);
-        this.prettyPrinter.prettyPrint(`     Description: ${ this.colors.CYAN }${ command.description }${ this.colors.RESET }`, false,
-            LogLevelsEnum.INFO, tab);
-        this.prettyPrinter.prettyPrint(`     Optional command: ${ this.colors.YELLOW }${ command.optional }${ this.colors.RESET }`, false,
-            LogLevelsEnum.INFO, tab);
-        this.prettyPrinter.prettyPrint(`     Eg.: ${ this.colors.GREEN }npm start ${ command.exampleUsage }${ this.colors.RESET }`, true,
-            LogLevelsEnum.INFO, tab);
+        this.prettyPrinter.prettyPrint(`${ startLine }: ${ command.command }`, false,
+            LogLevelsEnum.SUCCESS, tab);
+        this.prettyPrinter.prettyPrint(`Description: ${ command.description }`, false,
+            LogLevelsEnum.FANCY, (tab ? tab + 1 : 1));
+        this.prettyPrinter.prettyPrint(`Optional command: ${ command.optional }`, false,
+            LogLevelsEnum.ALERT, (tab ? tab + 1 : 1));
+        this.prettyPrinter.prettyPrint(`Eg.: npm start ${ command.exampleUsage }`, true,
+            LogLevelsEnum.SUCCESS, (tab ? tab + 1 : 1));
     }
 
 }

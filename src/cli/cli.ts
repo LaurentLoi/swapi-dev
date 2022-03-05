@@ -13,7 +13,7 @@ export class Cli {
 
     public run(): void {
         this.prettyPrinter.cliDelimiter('start');
-        this.prettyPrinter.prettyPrint('Hello world from base cli app !');
+        this.prettyPrinter.cliTitlePrinter();
 
         const params = this.cliArgsParserService.getParsedArgs();
         this.prettyPrinter.prettyPrint(['Current cli params: ', ...params], true);

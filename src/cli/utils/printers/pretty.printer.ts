@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
 import { LogLevelsEnum } from '../../enums/log-levels.enum';
 import { CliColorsEnum } from '../../enums/cli-colors.enum';
+import { TITLE_1 } from '../title';
 
 @Service()
 export class PrettyPrinter {
@@ -28,6 +29,10 @@ export class PrettyPrinter {
         } else {
             console.log(`${ this.decorationColor }╚${ content }${ this.resetColor }`);
         }
+    }
+
+    public cliTitlePrinter(): void {
+        this.prettyPrint(TITLE_1, true, LogLevelsEnum.FANCY);
     }
 
     public prettyPrint(toPrint: string | string[], emptyLine?: boolean, logLevel?: LogLevelsEnum, tabs?: number): void {
@@ -89,6 +94,9 @@ export class PrettyPrinter {
             break;
         case LogLevelsEnum.SUCCESS:
             this.baseColor = CliColorsEnum.GREEN;
+            break;
+        case LogLevelsEnum.FANCY:
+            this.baseColor = CliColorsEnum.CYAN;
             break;
         }
     }

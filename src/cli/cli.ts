@@ -9,10 +9,12 @@ import { FilmHttpService } from '../shared/services/http/film.http.service';
 @Service()
 export class Cli {
 
+    private films$ = this.filmService.films$;
+
     constructor(private cliArgsParserService: CliArgsParserService, private errorsPrinter: ErrorsPrinter,
         private prettyPrinter: PrettyPrinter, private filmService: FilmHttpService) {}
 
-    public run(): void {
+    public async run(): Promise<void> {
         this.prettyPrinter.cliDelimiter('start');
         this.prettyPrinter.cliTitlePrinter();
 
@@ -23,7 +25,13 @@ export class Cli {
             this.errorsPrinter.errorPrinter(noArgsError);
         } else {
             this.prettyPrinter.prettyPrint('let\'s run the CLI !');
-            this.filmService.getAllFilms();
+            await this.filmService.getAllFilms().then(() => {
+                this.films$.subscribe((films: any[]) => {
+                    console.log('found film[0] title: ', films[0].title);
+                    // console.log('found film[0] opening crawl: ', films[0].opening_crawl);
+                    console.log('Found film[0] planet[0]: ', films[0].planets[0]);
+                });
+            });
         }
         this.prettyPrinter.cliDelimiter('end');
     }

@@ -16,18 +16,34 @@ export class PlanetHttpService {
     private readonly planet = new BehaviorSubject<IPlanet>(null);
     public readonly planet$ = this.planet.pipe(filter(planet => !!planet));
 
+    private readonly wookiePlanets = new BehaviorSubject<IPlanet[]>(null);
+    public readonly wookiePlanets$ = this.wookiePlanets.pipe(filter(wookiePlanets => !!wookiePlanets));
+
+    private readonly wookiePlanet = new BehaviorSubject<IPlanet>(null);
+    public readonly wookiePlanet$ = this.wookiePlanet.pipe(filter(wookiePlanet => !!wookiePlanet));
+
     private subUrls = SwapiSubUrlsEnum;
 
-    public async getAllPlanets(): Promise<void> {
-        await axios.get(environment.swapi_url + this.subUrls.PLANETS).then((response: AxiosResponse) => {
-            this.planets.next(response.data.results);
-        });
+    public async getAllPlanets(wookiee?: boolean): Promise<void> {
+        await axios.get(environment.swapi_url + this.subUrls.PLANETS + (wookiee ? '?format=wookiee' : ''))
+            .then((response: AxiosResponse) => {
+                if (wookiee) {
+                    this.wookiePlanets.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '').replace(/(whhuanan)/g, 'null')).rcwochuanaoc);
+                } else {
+                    this.planets.next(response.data.results);
+                }
+            });
     }
 
-    public async getPlanetById(planetId: number): Promise<any> {
-        await axios.get(environment.swapi_url + this.subUrls.PLANET.replace('${id}', planetId.toString()))
+    public async getPlanetById(planetId: number, wookiee?: boolean): Promise<any> {
+        await axios.get(
+            environment.swapi_url + this.subUrls.PLANET.replace('${id}', planetId.toString()) + (wookiee ? '?format=wookiee' : ''))
             .then((response: AxiosResponse) => {
-                this.planet.next(response.data);
+                if (wookiee) {
+                    this.wookiePlanet.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '')));
+                } else {
+                    this.planet.next(response.data);
+                }
             });
     }
 }

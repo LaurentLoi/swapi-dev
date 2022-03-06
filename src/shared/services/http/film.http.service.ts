@@ -3,28 +3,29 @@ import { environment } from '../../../environments/environment';
 import { SwapiSubUrlsEnum } from '../../enums/swapi-sub-urls.enum';
 import { AxiosResponse } from 'axios';
 import { BehaviorSubject, filter } from 'rxjs';
+import { ISwapiFilm } from '../../models/swapi-film.model';
 
 const axios = require('axios').default;
 
 @Service()
 export class FilmHttpService {
 
-    private readonly films = new BehaviorSubject<any[]>([]);
+    private readonly films = new BehaviorSubject<ISwapiFilm[]>(null);
     public readonly films$ = this.films.pipe(filter(films => !!films));
 
-    private readonly film = new BehaviorSubject<any>(null);
+    private readonly film = new BehaviorSubject<ISwapiFilm>(null);
     public readonly film$ = this.film.pipe(filter(film => !!film));
 
     private subUrls = SwapiSubUrlsEnum;
 
     public async getAllFilms(): Promise<void> {
-        await axios.get(environment.swapi_url + this.subUrls.FILMS).then((response: AxiosResponse<any>) => {
+        await axios.get(environment.swapi_url + this.subUrls.FILMS).then((response: AxiosResponse) => {
             this.films.next(response.data.results);
         });
     }
 
     public async getFilmById(filmId: number): Promise<any> {
-        await axios.get(environment.swapi_url + this.subUrls.FILMS + filmId.toString()).then((response: AxiosResponse) => {
+        await axios.get(environment.swapi_url + this.subUrls.FILM.replace('${id}', filmId.toString())).then((response: AxiosResponse) => {
             this.film.next(response.data);
         });
     }

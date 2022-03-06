@@ -1,4 +1,6 @@
 export enum SwapiSubUrlsEnum {
     FILMS = 'films/',
-    PLANETS = 'planets/'
+    FILM = 'films/${id}',
+    PLANETS = 'planets/',
+    PLANET = 'planets/${id}'
 }

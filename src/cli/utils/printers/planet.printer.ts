@@ -11,7 +11,7 @@ export class PlanetPrinter {
         this.prettyPrinter.prettyPrint(planetName, false, LogLevelsEnum.FANCY, 2);
     }
 
-    public printPlanetDiameter(diameter: number): void {
-        this.prettyPrinter.prettyPrint(`Diameter: ${ diameter }`, true, LogLevelsEnum.FANCY, 2);
+    public printPlanetDiameter(diameter: number, wookie?: boolean): void {
+        this.prettyPrinter.prettyPrint(`${ wookie ? 'Aaahnruh uggguh' : 'Diameter' }: ${ diameter }`, true, LogLevelsEnum.FANCY, 2);
     }
 }

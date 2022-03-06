@@ -24,7 +24,7 @@ export class SwapiBaseService {
                 // Wookiee !
                 this.manageWookieeFilm(params);
             } else {
-                this.manageFilm(params)
+                this.manageFilm(params);
             }
         });
     }
@@ -62,7 +62,8 @@ export class SwapiBaseService {
 
     private manageWookieeFilm(params: string[]): void {
         this.wookieFilm$.subscribe(async (film: IWookieeFilm) => {
-            this.prettyPrinter.prettyPrint('So you speak Wookiee ?! Whoaw that\'s great!', true, LogLevelsEnum.FANCY, 1);
+            this.prettyPrinter.prettyPrint('So you speak Wookiee ?! Whoaw that\'s great!', false, LogLevelsEnum.FANCY, 1);
+            this.prettyPrinter.prettyPrint('(Thanks to: https://www.wookietranslator.com/)', true, LogLevelsEnum.FANCY, 2);
             this.filmPrinter.printWookieFilm(film, +params[0]);
             const currentFilmPlanetIds: number[] = urlParser(film.akanrawhwoaoc);
             await (this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds, true)).then(
@@ -70,23 +71,23 @@ export class SwapiBaseService {
                     this.filmPrinter.printWookieFilmPlanets(planets as IWookieePlanet[]);
 
                     const filteredPlanets: IWookieePlanet[] = (planets as IWookieePlanet[]).filter((planet: IWookieePlanet) =>
-                        planet.aoworcrcraahwh.toLowerCase().includes('scoohuwhaoraahwhc') && +planet.churcwwraoawo_ohraaoworc > 0,
+                        planet.aoworcrcraahwh.toLowerCase().includes('Scoohuwhaoraahwhc') && +planet.churcwwraoawo_ohraaoworc > 0,
                     );
 
                     this.prettyPrinter.prettyPrint(
-                        `aarrragghuuhw uggguh raaaaaahhgh huurh aarrragghuuhw huuguughghg huuguughghg raaaaaahhgh "${ film.aoahaoanwo }": `,
+                        `Aarrragghuuhw uggguh raaaaaahhgh huurh aarrragghuuhw huuguughghg huuguughghg raaaaaahhgh "${ film.aoahaoanwo }": `,
                         false, LogLevelsEnum.SUCCESS, 1);
                     this.prettyPrinter.prettyPrint(`${ filteredPlanets.length.toString() }`, true, LogLevelsEnum.FANCY, 2);
 
                     let totalDiameter = 0;
                     filteredPlanets.forEach((planet: IWookieePlanet) => {
                         this.planetPrinter.printPlanetName(planet.whrascwo);
-                        this.planetPrinter.printPlanetDiameter(+planet.waahrascwoaoworc);
+                        this.planetPrinter.printPlanetDiameter(+planet.waahrascwoaoworc, true);
                         totalDiameter += +planet.waahrascwoaoworc;
                     });
 
                     this.prettyPrinter.prettyPrint(
-                        `aaaaahnr huuguughghg aguhwwgggghhh aarrragghuuhw uugggh aaaaahnr uuh huuguughghg huuguughghg raaaaaahhgh: `,
+                        `Aaaaahnr huuguughghg aguhwwgggghhh aarrragghuuhw uugggh aaaaahnr uuh huuguughghg huuguughghg raaaaaahhgh: `,
                         false, LogLevelsEnum.SUCCESS, 2);
                     this.prettyPrinter.prettyPrint(`${ totalDiameter.toString() }`, true, LogLevelsEnum.FANCY, 3);
                     this.prettyPrinter.cliDelimiter('end');

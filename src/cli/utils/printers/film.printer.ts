@@ -20,7 +20,7 @@ export class FilmPrinter {
     public printWookieFilm(film: IWookieeFilm, filmNbr: number): void {
         this.prettyPrinter.prettyPrint(`Raaaaaahhgh uughghhhgh ${ filmNbr } awwgggghhh: `, false, LogLevelsEnum.SUCCESS, 1);
         this.prettyPrinter.prettyPrint(film.aoahaoanwo, true, LogLevelsEnum.FANCY, 2);
-        this.prettyPrinter.prettyPrint(`uughguughhhghghghhhgh huuguughghg raaaaaahhgh uughguughhhghghghhhgh: `, false,
+        this.prettyPrinter.prettyPrint(`Uughguughhhghghghhhgh huuguughghg raaaaaahhgh uughguughhhghghghhhgh: `, false,
             LogLevelsEnum.SUCCESS, 1);
         this.prettyPrinter.prettyPrint(film.akanrawhwoaoc.length.toString(), true, LogLevelsEnum.FANCY, 2);
     }
@@ -34,7 +34,7 @@ export class FilmPrinter {
     }
 
     public printWookieFilmPlanets(planets: IWookieePlanet[]): void {
-        this.prettyPrinter.prettyPrint('uughghhhgh uuh raaaaaahhgh: ', true, LogLevelsEnum.SUCCESS, 1);
+        this.prettyPrinter.prettyPrint('Uughghhhgh uuh raaaaaahhgh: ', true, LogLevelsEnum.SUCCESS, 1);
         planets.forEach((planet: IWookieePlanet) => {
             this.planetPrinter.printPlanetName(planet.whrascwo);
         });

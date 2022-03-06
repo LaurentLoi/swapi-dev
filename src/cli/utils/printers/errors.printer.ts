@@ -26,14 +26,19 @@ export class ErrorsPrinter {
 
     public httpErrorPrinter(error: any): void {
         this.prettyPrinter.prettyPrint('Sorry, an http error occured:', true, LogLevelsEnum.ERROR);
-        this.prettyPrinter.prettyPrint(
-            [
-                error.config.method.toString().toUpperCase(),
-                error.config.url,
-                error.responserror.status.toString(),
-                error.response.statusText,
-            ], true,
-            LogLevelsEnum.ERROR, 1);
+        if (error.config && error.response) {
+
+            this.prettyPrinter.prettyPrint(
+                [
+                    error.config.method.toString().toUpperCase(),
+                    error.config.url,
+                    error.response.status.toString(),
+                    error.response.statusText,
+                ], true,
+                LogLevelsEnum.ERROR, 1);
+        } else {
+            this.prettyPrinter.prettyPrint(error.toString(), true, LogLevelsEnum.ERROR, 1);
+        }
 
         this.prettyPrinter.cliDelimiter('end');
     }

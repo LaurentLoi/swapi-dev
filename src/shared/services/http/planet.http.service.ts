@@ -3,14 +3,14 @@ import { BehaviorSubject, filter } from 'rxjs';
 import { SwapiSubUrlsEnum } from '../../enums/swapi-sub-urls.enum';
 import { environment } from '../../../environments/environment';
 import { AxiosResponse } from 'axios';
-import { IPlanet } from '../../models/swapi-planet.model';
+import { IPlanet, IWookieePlanet } from '../../models/swapi-planet.model';
 import { ErrorsPrinter } from '../../../cli/utils/printers/errors.printer';
 
 const axios = require('axios').default;
 
 @Service()
 export class PlanetHttpService {
-
+    
     private readonly planets = new BehaviorSubject<IPlanet[]>(null);
     public readonly planets$ = this.planets.pipe(filter(planets => !!planets));
 
@@ -22,6 +22,9 @@ export class PlanetHttpService {
 
     private readonly wookiePlanets = new BehaviorSubject<IPlanet[]>(null);
     public readonly wookiePlanets$ = this.wookiePlanets.pipe(filter(wookiePlanets => !!wookiePlanets));
+
+    private readonly wookiePlanetsByFilm = new BehaviorSubject<IWookieePlanet[]>(null);
+    public readonly wookiePlanetsByFilm$ = this.wookiePlanetsByFilm.pipe(filter(wookiePlanetsByFilm => !!wookiePlanetsByFilm));
 
     private readonly wookiePlanet = new BehaviorSubject<IPlanet>(null);
     public readonly wookiePlanet$ = this.wookiePlanet.pipe(filter(wookiePlanet => !!wookiePlanet));
@@ -52,7 +55,7 @@ export class PlanetHttpService {
                 environment.swapi_url + this.subUrls.PLANET.replace('${id}', planetId.toString()) + (wookiee ? '?format=wookiee' : ''))
                 .then((response: AxiosResponse) => {
                     if (wookiee) {
-                        this.wookiePlanet.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '')));
+                        this.wookiePlanet.next(response.data);
                         return response;
                     } else {
                         this.planet.next(response.data);
@@ -64,16 +67,26 @@ export class PlanetHttpService {
         }
     }
 
-    public async getFilmPlanetsById(ids: number[]): Promise<IPlanet[]> {
-        let filmPlanets: IPlanet[];
+    public async getFilmPlanetsById(ids: number[], wookiee?: boolean): Promise<IPlanet[] | IWookieePlanet[]> {
+        let filmPlanets: IPlanet[] | IWookieePlanet[];
         try {
-            await Promise.all(ids.map((id: number) => this.getPlanetById(id))).then((results) => {
-                filmPlanets = results.map((res) => {
-                    return res.data;
+            if (wookiee) {
+                await Promise.all(ids.map((id: number) => this.getPlanetById(id, true))).then((results) => {
+                    filmPlanets = results.map((res) => {
+                        return res.data;
+                    });
+                    this.wookiePlanetsByFilm.next(filmPlanets as IWookieePlanet[]);
+                    return results;
                 });
-                this.planetsByFilm.next(filmPlanets);
-                return results;
-            });
+            } else {
+                await Promise.all(ids.map((id: number) => this.getPlanetById(id))).then((results) => {
+                    filmPlanets = results.map((res) => {
+                        return res.data;
+                    });
+                    this.planetsByFilm.next(filmPlanets as IPlanet[]);
+                    return results;
+                });
+            }
             return filmPlanets;
         } catch (e: any) {
             this.errorsPrinter.httpErrorPrinter(e);

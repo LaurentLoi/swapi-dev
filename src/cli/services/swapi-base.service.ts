@@ -36,12 +36,15 @@ export class SwapiBaseService {
                     this.prettyPrinter.prettyPrint(`Found film[${ +(params[0]) }] title: `, false, LogLevelsEnum.ALERT, 1);
                     this.prettyPrinter.prettyPrint(film.title, false, LogLevelsEnum.FANCY, 2);
                     this.prettyPrinter.prettyPrint(`Found film[${ +(params[0]) }] planet[0]: `, false, LogLevelsEnum.ALERT, 1);
-                    this.prettyPrinter.prettyPrint(film.planets[0], false, LogLevelsEnum.FANCY, 2);
+                    this.prettyPrinter.prettyPrint(film.planets[0], true, LogLevelsEnum.FANCY, 2);
 
                     const currentFilmPlanetIds: number[] = urlParser(film.planets);
-                    await this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds);
-                    this.planetHttpService.planetsByFilm$.subscribe((planets: IPlanet[]) => {
-                        console.log('my planets: ', planets);
+                    await this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds).then((planets: IPlanet[]) => {
+                        this.prettyPrinter.prettyPrint('my planets: ', true, LogLevelsEnum.ALERT, 1);
+                        planets.forEach((planet: IPlanet) => {
+                            this.prettyPrinter.prettyPrint(planet.name, false, LogLevelsEnum.FANCY, 2);
+                        });
+                        this.prettyPrinter.cliDelimiter('end');
                     });
                 });
             }

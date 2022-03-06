@@ -20,10 +20,12 @@ export class ErrorsPrinter {
         if (error.addBaseHelper) {
             this.baseUsagePrinter();
         }
+
+        this.prettyPrinter.cliDelimiter('end');
     }
 
     public httpErrorPrinter(error: any): void {
-        this.prettyPrinter.prettyPrint('Sorry, an error occured:', true, LogLevelsEnum.ERROR);
+        this.prettyPrinter.prettyPrint('Sorry, an http error occured:', true, LogLevelsEnum.ERROR);
         this.prettyPrinter.prettyPrint(
             [
                 error.config.method.toString().toUpperCase(),
@@ -32,6 +34,8 @@ export class ErrorsPrinter {
                 error.response.statusText,
             ], true,
             LogLevelsEnum.ERROR, 1);
+
+        this.prettyPrinter.cliDelimiter('end');
     }
 
     private baseErrorPrinter(): void {

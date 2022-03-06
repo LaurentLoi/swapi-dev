@@ -32,6 +32,6 @@ export class Cli {
                 this.errorsPrinter.errorPrinter(unknownArgsError);
             }
         }
-        this.prettyPrinter.cliDelimiter('end');
+
     }
 }

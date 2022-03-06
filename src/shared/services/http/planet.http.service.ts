@@ -64,17 +64,20 @@ export class PlanetHttpService {
         }
     }
 
-    public async getFilmPlanetsById(ids: number[]): Promise<void> {
+    public async getFilmPlanetsById(ids: number[]): Promise<IPlanet[]> {
         let filmPlanets: IPlanet[];
         try {
             await Promise.all(ids.map((id: number) => this.getPlanetById(id))).then((results) => {
                 filmPlanets = results.map((res) => {
                     return res.data;
                 });
+                this.planetsByFilm.next(filmPlanets);
+                return results;
             });
-            this.planetsByFilm.next(filmPlanets);
+            return filmPlanets;
         } catch (e: any) {
             this.errorsPrinter.httpErrorPrinter(e);
+            return null;
         }
     }
 }

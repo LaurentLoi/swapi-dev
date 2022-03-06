@@ -4,6 +4,7 @@ import { SwapiSubUrlsEnum } from '../../enums/swapi-sub-urls.enum';
 import { AxiosResponse } from 'axios';
 import { BehaviorSubject, filter } from 'rxjs';
 import { IFilm, IWookieeFilm } from '../../models/swapi-film.model';
+import { ErrorsPrinter } from '../../../cli/utils/printers/errors.printer';
 
 const axios = require('axios').default;
 
@@ -24,25 +25,37 @@ export class FilmHttpService {
 
     private subUrls = SwapiSubUrlsEnum;
 
+    constructor(private errorsPrinter: ErrorsPrinter) {}
+
     public async getAllFilms(wookiee?: boolean): Promise<void> {
-        await axios.get(environment.swapi_url + this.subUrls.FILMS + (wookiee ? '?format=wookiee' : ''))
-            .then((response: AxiosResponse) => {
-                if (wookiee) {
-                    this.wookieFilms.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '').replace(/(whhuanan)/g, 'null')).rcwochuanaoc);
-                } else {
-                    this.films.next(response.data.results);
-                }
-            });
+        try {
+            await axios.get(environment.swapi_url + this.subUrls.FILMS + (wookiee ? '?format=wookiee' : ''))
+                .then((response: AxiosResponse) => {
+                    if (wookiee) {
+                        this.wookieFilms.next(
+                            JSON.parse(response.data.replace(/\\rc\\wh/g, '').replace(/(whhuanan)/g, 'null')).rcwochuanaoc);
+                    } else {
+                        this.films.next(response.data.results);
+                    }
+                });
+        } catch (e) {
+            this.errorsPrinter.httpErrorPrinter(e);
+        }
     }
 
     public async getFilmById(filmId: number, wookiee?: boolean): Promise<void> {
-        await axios.get(environment.swapi_url + this.subUrls.FILM.replace('${id}', filmId.toString()) + (wookiee ? '?format=wookiee' : ''))
-            .then((response: AxiosResponse) => {
-                if (wookiee) {
-                    this.wookieFilm.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '')));
-                } else {
-                    this.film.next(response.data);
-                }
-            });
+        try {
+            await axios.get(
+                environment.swapi_url + this.subUrls.FILM.replace('${id}', filmId.toString()) + (wookiee ? '?format=wookiee' : ''))
+                .then((response: AxiosResponse) => {
+                    if (wookiee) {
+                        this.wookieFilm.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '')));
+                    } else {
+                        this.film.next(response.data);
+                    }
+                });
+        } catch (e: any) {
+            this.errorsPrinter.httpErrorPrinter(e);
+        }
     }
 }

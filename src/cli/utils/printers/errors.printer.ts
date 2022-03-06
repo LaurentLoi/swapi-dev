@@ -22,6 +22,18 @@ export class ErrorsPrinter {
         }
     }
 
+    public httpErrorPrinter(error: any): void {
+        this.prettyPrinter.prettyPrint('Sorry, an error occured:', true, LogLevelsEnum.ERROR);
+        this.prettyPrinter.prettyPrint(
+            [
+                error.config.method.toString().toUpperCase(),
+                error.config.url,
+                error.responserror.status.toString(),
+                error.response.statusText,
+            ], true,
+            LogLevelsEnum.ERROR, 1);
+    }
+
     private baseErrorPrinter(): void {
         this.prettyPrinter.emptyLinePrinter();
         this.prettyPrinter.prettyPrint('Sorry, an error occurred: ', false, LogLevelsEnum.ERROR);

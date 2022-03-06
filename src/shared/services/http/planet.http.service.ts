@@ -4,6 +4,7 @@ import { SwapiSubUrlsEnum } from '../../enums/swapi-sub-urls.enum';
 import { environment } from '../../../environments/environment';
 import { AxiosResponse } from 'axios';
 import { IPlanet } from '../../models/swapi-planet.model';
+import { ErrorsPrinter } from '../../../cli/utils/printers/errors.printer';
 
 const axios = require('axios').default;
 
@@ -24,26 +25,37 @@ export class PlanetHttpService {
 
     private subUrls = SwapiSubUrlsEnum;
 
+    constructor(private errorsPrinter: ErrorsPrinter) {}
+
     public async getAllPlanets(wookiee?: boolean): Promise<void> {
-        await axios.get(environment.swapi_url + this.subUrls.PLANETS + (wookiee ? '?format=wookiee' : ''))
-            .then((response: AxiosResponse) => {
-                if (wookiee) {
-                    this.wookiePlanets.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '').replace(/(whhuanan)/g, 'null')).rcwochuanaoc);
-                } else {
-                    this.planets.next(response.data.results);
-                }
-            });
+        try {
+            await axios.get(environment.swapi_url + this.subUrls.PLANETS + (wookiee ? '?format=wookiee' : ''))
+                .then((response: AxiosResponse) => {
+                    if (wookiee) {
+                        this.wookiePlanets.next(
+                            JSON.parse(response.data.replace(/\\rc\\wh/g, '').replace(/(whhuanan)/g, 'null')).rcwochuanaoc);
+                    } else {
+                        this.planets.next(response.data.results);
+                    }
+                });
+        } catch (e: any) {
+            this.errorsPrinter.httpErrorPrinter(e);
+        }
     }
 
     public async getPlanetById(planetId: number, wookiee?: boolean): Promise<any> {
-        await axios.get(
-            environment.swapi_url + this.subUrls.PLANET.replace('${id}', planetId.toString()) + (wookiee ? '?format=wookiee' : ''))
-            .then((response: AxiosResponse) => {
-                if (wookiee) {
-                    this.wookiePlanet.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '')));
-                } else {
-                    this.planet.next(response.data);
-                }
-            });
+        try {
+            await axios.get(
+                environment.swapi_url + this.subUrls.PLANET.replace('${id}', planetId.toString()) + (wookiee ? '?format=wookiee' : ''))
+                .then((response: AxiosResponse) => {
+                    if (wookiee) {
+                        this.wookiePlanet.next(JSON.parse(response.data.replace(/\\rc\\wh/g, '')));
+                    } else {
+                        this.planet.next(response.data);
+                    }
+                });
+        } catch (e: any) {
+            this.errorsPrinter.httpErrorPrinter(e);
+        }
     }
 }

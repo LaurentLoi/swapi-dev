@@ -8,7 +8,7 @@ export const swapiBaseCommand: ICommand = {
     optionalCommands: [
         {
             command: 'w',
-            description: 'So you speak Wookiee ?! That\'s great !',
+            description: 'Wookiee translator.',
             optional: true,
             exampleUsage: '6 w',
         },

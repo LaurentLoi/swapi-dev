@@ -61,11 +61,11 @@ export class ErrorsPrinter {
     private commandPrinter(command: ICommand, startLine: number | string, tab?: number): void {
         this.prettyPrinter.prettyPrint(`${ startLine }: ${ command.command }`, false,
             LogLevelsEnum.SUCCESS, tab);
-        this.prettyPrinter.prettyPrint(`Description: ${ command.description }`, false,
+        this.prettyPrinter.prettyPrint(`  Description: ${ command.description }`, false,
             LogLevelsEnum.FANCY, (tab ? tab + 1 : 1));
-        this.prettyPrinter.prettyPrint(`Optional command: ${ command.optional }`, false,
+        this.prettyPrinter.prettyPrint(`  Optional command: ${ command.optional }`, false,
             LogLevelsEnum.ALERT, (tab ? tab + 1 : 1));
-        this.prettyPrinter.prettyPrint(`Eg.: npm start ${ command.exampleUsage }`, true,
+        this.prettyPrinter.prettyPrint(`  Eg.: npm start ${ command.exampleUsage }`, true,
             LogLevelsEnum.SUCCESS, (tab ? tab + 1 : 1));
     }
 

@@ -14,3 +14,20 @@ export interface ISwapiFilm {
     edited: Date;
     ulr: string;
 }
+
+export interface IWookieeFilm {
+    aoahaoanwo: string;
+    woakahcoowawo_ahwa: number;
+    ooakwowhahwhrr_oarcraohan: string;
+    waahrcwooaaooorc: string;
+    akrcoowahuoaworc: string;
+    rcwoanworacwo_waraaowo: string;
+    oaacrarcraoaaoworcc: string[];
+    akanrawhwoaoc: string[];
+    caorarccacahakc: string[];
+    howoacahoaanwoc: string[];
+    cakwooaahwoc: string[];
+    oarcworaaowowa: Date;
+    wowaahaowowa: Date;
+    hurcan: string;
+}

@@ -6,7 +6,7 @@ import { PrettyPrinter } from './utils/printers/pretty.printer';
 import { noArgsError } from './utils/errors/no-args.error';
 import { FilmHttpService } from '../shared/services/http/film.http.service';
 import { LogLevelsEnum } from './enums/log-levels.enum';
-import { ISwapiFilm, IWookieeFilm } from '../shared/models/swapi-film.model';
+import { IFilm, IWookieeFilm } from '../shared/models/swapi-film.model';
 import { SWAPI_BASE_COMMANDS } from './utils/cli.const';
 
 @Service()
@@ -47,7 +47,7 @@ export class Cli {
                             this.prettyPrinter.prettyPrint(film.akanrawhwoaoc[0], false, LogLevelsEnum.FANCY, 2);
                         });
                     } else {
-                        this.film$.subscribe((film: ISwapiFilm) => {
+                        this.film$.subscribe((film: IFilm) => {
                             this.prettyPrinter.prettyPrint(`Found film[${ +(params[0]) }] title: `, false, LogLevelsEnum.ALERT, 1);
                             this.prettyPrinter.prettyPrint(film.title, false, LogLevelsEnum.FANCY, 2);
                             this.prettyPrinter.prettyPrint(`Found film[${ +(params[0]) }] planet[0]: `, false, LogLevelsEnum.ALERT, 1);
@@ -68,7 +68,7 @@ export class Cli {
                             // console.log('found film[0] opening crawl: ', films[0].opening_crawl);
                         });
                     } else {
-                        this.films$.subscribe((films: ISwapiFilm[]) => {
+                        this.films$.subscribe((films: IFilm[]) => {
                             this.prettyPrinter.prettyPrint('Found film[0] title: ', false, LogLevelsEnum.ALERT, 1);
                             this.prettyPrinter.prettyPrint(films[0].title, false, LogLevelsEnum.FANCY, 2);
                             this.prettyPrinter.prettyPrint('Found film[0] planet[0]: ', false, LogLevelsEnum.ALERT, 1);

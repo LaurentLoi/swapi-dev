@@ -1,4 +1,4 @@
-export interface ISwapiFilm {
+export interface IFilm {
     title: string;
     episode_id: number;
     opening_crawl: string;

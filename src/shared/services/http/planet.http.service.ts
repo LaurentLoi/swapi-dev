@@ -10,7 +10,7 @@ const axios = require('axios').default;
 
 @Service()
 export class PlanetHttpService {
-    
+
     private readonly planets = new BehaviorSubject<IPlanet[]>(null);
     public readonly planets$ = this.planets.pipe(filter(planets => !!planets));
 
@@ -70,23 +70,17 @@ export class PlanetHttpService {
     public async getFilmPlanetsById(ids: number[], wookiee?: boolean): Promise<IPlanet[] | IWookieePlanet[]> {
         let filmPlanets: IPlanet[] | IWookieePlanet[];
         try {
-            if (wookiee) {
-                await Promise.all(ids.map((id: number) => this.getPlanetById(id, true))).then((results) => {
-                    filmPlanets = results.map((res) => {
-                        return res.data;
-                    });
+            await Promise.all(ids.map((id: number) => this.getPlanetById(id, wookiee))).then((results) => {
+                filmPlanets = results.map((res) => {
+                    return res.data;
+                });
+                if (wookiee) {
                     this.wookiePlanetsByFilm.next(filmPlanets as IWookieePlanet[]);
-                    return results;
-                });
-            } else {
-                await Promise.all(ids.map((id: number) => this.getPlanetById(id))).then((results) => {
-                    filmPlanets = results.map((res) => {
-                        return res.data;
-                    });
+                } else {
                     this.planetsByFilm.next(filmPlanets as IPlanet[]);
-                    return results;
-                });
-            }
+                }
+                return results;
+            });
             return filmPlanets;
         } catch (e: any) {
             this.errorsPrinter.httpErrorPrinter(e);

@@ -20,8 +20,9 @@ export class Cli {
         this.prettyPrinter.cliTitlePrinter();
 
         const params = this.cliArgsParserService.getParsedArgs();
-        this.prettyPrinter.prettyPrint('Current cli params: ');
+        this.prettyPrinter.prettyPrint('Current cli params: ', true, LogLevelsEnum.ALERT);
         this.prettyPrinter.prettyPrint([...params], true, LogLevelsEnum.ALERT, 1);
+        this.prettyPrinter.prettyPrint('  -----', true, LogLevelsEnum.FANCY, 0);
 
         if (!params.length) {
             this.errorsPrinter.errorPrinter(noArgsError);

@@ -10,7 +10,7 @@ export class PrettyPrinter {
 
     private cmdWidth: number = process.stdout.columns;
     private tabsLength = 4;
-    private prependLength = 5;
+    private prependLength = 4;
     private appendLength = 2;
 
     private lineAvailableLength: number = this.cmdWidth - this.prependLength - this.appendLength;
@@ -37,10 +37,11 @@ export class PrettyPrinter {
 
     public cliTitlePrinter(): void {
         if (this.lineAvailableLength >= TITLE_BIG[0].length) {
-            this.prettyPrint(TITLE_BIG, true, LogLevelsEnum.FANCY);
+            this.prettyPrint(TITLE_BIG, false, LogLevelsEnum.FANCY);
         } else {
-            this.prettyPrint(TITLE_SMALL, true, LogLevelsEnum.FANCY);
+            this.prettyPrint(TITLE_SMALL, false, LogLevelsEnum.FANCY);
         }
+        this.prettyPrint('Another Star Wars API CLI.', true, LogLevelsEnum.SUCCESS, 1);
     }
 
     public prettyPrint(toPrint: string | string[], emptyLine?: boolean, logLevel?: LogLevelsEnum, tabs?: number): void {
@@ -70,7 +71,7 @@ export class PrettyPrinter {
     }
 
     private linePrinter(line: string): void {
-        console.log(`${ this.startOfLine() } ${ this.baseColor }> ${ line } ${ this.endOfLine(line.length) }${ this.resetColor }`);
+        console.log(`${ this.startOfLine() } ${ this.baseColor } ${ line } ${ this.endOfLine(line.length) }${ this.resetColor }`);
     }
 
     private lineChunck(line: string, tabs?: number): RegExpMatchArray {

@@ -10,8 +10,8 @@ export class FilmPrinter {
 
     constructor(private prettyPrinter: PrettyPrinter, private planetPrinter: PlanetPrinter) {}
 
-    public printFilm(film: IFilm): void {
-        this.prettyPrinter.prettyPrint(`Film ${ +film.episode_id } title: `, false, LogLevelsEnum.SUCCESS, 1);
+    public printFilm(film: IFilm, filmNbr: number): void {
+        this.prettyPrinter.prettyPrint(`Film ${ filmNbr } title: `, false, LogLevelsEnum.SUCCESS, 1);
         this.prettyPrinter.prettyPrint(film.title, true, LogLevelsEnum.FANCY, 2);
         this.prettyPrinter.prettyPrint(`Number of planets: `, false, LogLevelsEnum.SUCCESS, 1);
         this.prettyPrinter.prettyPrint(film.planets.length.toString(), true, LogLevelsEnum.FANCY, 2);

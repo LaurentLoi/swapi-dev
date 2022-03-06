@@ -36,7 +36,7 @@ export class SwapiBaseService {
         } else {
             await this.filmService.getFilmById(+params[0], params.includes('w')).then(() => {
                 this.film$.subscribe(async (film: IFilm) => {
-                    this.filmPrinter.printFilm(film);
+                    this.filmPrinter.printFilm(film, +params[0]);
                     const currentFilmPlanetIds: number[] = urlParser(film.planets);
                     await this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds).then((planets: IPlanet[]) => {
 
@@ -46,7 +46,7 @@ export class SwapiBaseService {
                             planet.terrain.toLowerCase().includes('mountains') && +planet.surface_water > 0,
                         );
 
-                        this.prettyPrinter.prettyPrint('Planets with water surfaces and mountains: ',
+                        this.prettyPrinter.prettyPrint(`Planets with water surfaces and mountains in "${ film.title }": `,
                             false, LogLevelsEnum.SUCCESS, 1);
                         this.prettyPrinter.prettyPrint(`${ filteredPlanets.length.toString() }`, true, LogLevelsEnum.FANCY, 2);
 

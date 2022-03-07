@@ -5,7 +5,7 @@ import { ErrorsPrinter } from './utils/printers/errors.printer';
 import { PrettyPrinter } from './utils/printers/pretty.printer';
 import { noArgsError } from './utils/errors/no-args.error';
 import { LogLevelsEnum } from './enums/log-levels.enum';
-import { SWAPI_BASE_COMMANDS } from './utils/cli.const';
+import { HELPER_COMMANDS, SWAPI_BASE_COMMANDS } from './utils/cli.const';
 import { unknownArgsError } from './utils/errors/unknown-args.error';
 import { SwapiBaseService } from './services/swapi-base.service';
 
@@ -29,6 +29,8 @@ export class Cli {
         } else {
             if (SWAPI_BASE_COMMANDS.includes(params[0])) {
                 this.swapiBaseService.swapiRun(params);
+            } else if (params.includes(HELPER_COMMANDS[0]) || params.includes(HELPER_COMMANDS[1])) {
+                this.errorsPrinter.helperPrinter();
             } else {
                 this.errorsPrinter.errorPrinter(unknownArgsError);
             }

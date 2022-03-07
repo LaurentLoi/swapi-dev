@@ -14,4 +14,3 @@ export const swapiBaseCommand: ICommand = {
         },
     ],
 };
-// todo add helper command

@@ -6,3 +6,8 @@ export const SWAPI_BASE_COMMANDS: string[] = [
     '5',
     '6',
 ];
+
+export const HELPER_COMMANDS: string[] = [
+    'h',
+    'help',
+];

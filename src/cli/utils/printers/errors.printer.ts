@@ -43,6 +43,11 @@ export class ErrorsPrinter {
         this.prettyPrinter.cliDelimiter('end');
     }
 
+    public helperPrinter(): void {
+        this.baseUsagePrinter();
+        this.prettyPrinter.cliDelimiter('end');
+    }
+
     private baseErrorPrinter(): void {
         this.prettyPrinter.emptyLinePrinter();
         this.prettyPrinter.prettyPrint('Sorry, an error occurred: ', false, LogLevelsEnum.ERROR);

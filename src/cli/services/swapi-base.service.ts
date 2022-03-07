@@ -70,7 +70,7 @@ export class SwapiBaseService {
                     this.filmPrinter.printWookieFilmPlanets(planets as IWookieePlanet[]);
 
                     const filteredPlanets: IWookieePlanet[] = (planets as IWookieePlanet[]).filter((planet: IWookieePlanet) =>
-                        planet.aoworcrcraahwh.toLowerCase().includes('Scoohuwhaoraahwhc') && +planet.churcwwraoawo_ohraaoworc > 0,
+                        planet.aoworcrcraahwh.toLowerCase().includes('scoohuwhaoraahwhc') && +planet.churcwwraoawo_ohraaoworc > 0,
                     );
 
                     this.prettyPrinter.prettyPrint(

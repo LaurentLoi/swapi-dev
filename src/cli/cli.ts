@@ -15,7 +15,7 @@ export class Cli {
     constructor(private cliArgsParserService: CliArgsParserService, private errorsPrinter: ErrorsPrinter,
         private prettyPrinter: PrettyPrinter, private swapiBaseService: SwapiBaseService) {}
 
-    public async run(): Promise<void> {
+    public run(): void {
         this.prettyPrinter.cliDelimiter('start');
         this.prettyPrinter.cliTitlePrinter();
 
@@ -28,7 +28,7 @@ export class Cli {
             this.errorsPrinter.errorPrinter(noArgsError);
         } else {
             if (SWAPI_BASE_COMMANDS.includes(params[0])) {
-                await this.swapiBaseService.swapiRun(params);
+                this.swapiBaseService.swapiRun(params);
             } else {
                 this.errorsPrinter.errorPrinter(unknownArgsError);
             }

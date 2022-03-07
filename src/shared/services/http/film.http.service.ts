@@ -27,9 +27,9 @@ export class FilmHttpService {
 
     constructor(private errorsPrinter: ErrorsPrinter) {}
 
-    public async getAllFilms(wookiee?: boolean): Promise<void> {
+    public getAllFilms(wookiee?: boolean): void {
         try {
-            await axios.get(environment.swapi_url + this.subUrls.FILMS + (wookiee ? '?format=wookiee' : ''))
+            axios.get(environment.swapi_url + this.subUrls.FILMS + (wookiee ? '?format=wookiee' : ''))
                 .then((response: AxiosResponse) => {
                     if (wookiee) {
                         this.wookieFilms.next(
@@ -43,9 +43,9 @@ export class FilmHttpService {
         }
     }
 
-    public async getFilmById(filmId: number, wookiee?: boolean): Promise<void> {
+    public getFilmById(filmId: number, wookiee?: boolean): void {
         try {
-            await axios.get(
+            axios.get(
                 environment.swapi_url + this.subUrls.FILM.replace('${id}', filmId.toString()) + (wookiee ? '?format=wookiee' : ''))
                 .then((response: AxiosResponse) => {
                     if (wookiee) {

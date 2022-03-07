@@ -18,22 +18,21 @@ export class SwapiBaseService {
     constructor(private filmService: FilmHttpService, private planetHttpService: PlanetHttpService, private prettyPrinter: PrettyPrinter,
         private filmPrinter: FilmPrinter, private planetPrinter: PlanetPrinter) {}
 
-    public async swapiRun(params: string[]): Promise<void> {
-        await this.filmService.getFilmById(+params[0], params.includes('w')).then(() => {
-            if (params.includes('w')) {
-                // Wookiee !
-                this.manageWookieeFilm(params);
-            } else {
-                this.manageFilm(params);
-            }
-        });
+    public swapiRun(params: string[]): void {
+        this.filmService.getFilmById(+params[0], params.includes('w'));
+        if (params.includes('w')) {
+            // Wookiee !
+            this.manageWookieeFilm(params);
+        } else {
+            this.manageFilm(params);
+        }
     }
 
     private manageFilm(params: string[]): void {
-        this.film$.subscribe(async (film: IFilm) => {
+        this.film$.subscribe((film: IFilm) => {
             this.filmPrinter.printFilm(film, +params[0]);
             const currentFilmPlanetIds: number[] = urlParser(film.planets);
-            await this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds).then((planets: IPlanet[] | IWookieePlanet[]) => {
+            this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds).then((planets: IPlanet[] | IWookieePlanet[]) => {
 
                 this.filmPrinter.printFilmPlanets(planets as IPlanet[]);
 
@@ -61,12 +60,12 @@ export class SwapiBaseService {
     }
 
     private manageWookieeFilm(params: string[]): void {
-        this.wookieFilm$.subscribe(async (film: IWookieeFilm) => {
+        this.wookieFilm$.subscribe((film: IWookieeFilm) => {
             this.prettyPrinter.prettyPrint('So you speak Wookiee ?! Whoaw that\'s great!', false, LogLevelsEnum.FANCY, 1);
             this.prettyPrinter.prettyPrint('(Thanks to: https://www.wookietranslator.com/)', true, LogLevelsEnum.FANCY, 2);
             this.filmPrinter.printWookieFilm(film, +params[0]);
             const currentFilmPlanetIds: number[] = urlParser(film.akanrawhwoaoc);
-            await (this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds, true)).then(
+            (this.planetHttpService.getFilmPlanetsById(currentFilmPlanetIds, true)).then(
                 (planets: IPlanet[] | IWookieePlanet[]) => {
                     this.filmPrinter.printWookieFilmPlanets(planets as IWookieePlanet[]);
 

@@ -33,9 +33,9 @@ export class PlanetHttpService {
 
     constructor(private errorsPrinter: ErrorsPrinter) {}
 
-    public async getAllPlanets(wookiee?: boolean): Promise<void> {
+    public getAllPlanets(wookiee?: boolean): void {
         try {
-            await axios.get(environment.swapi_url + this.subUrls.PLANETS + (wookiee ? '?format=wookiee' : ''))
+            axios.get(environment.swapi_url + this.subUrls.PLANETS + (wookiee ? '?format=wookiee' : ''))
                 .then((response: AxiosResponse) => {
                     if (wookiee) {
                         this.wookiePlanets.next(
@@ -49,9 +49,9 @@ export class PlanetHttpService {
         }
     }
 
-    public async getPlanetById(planetId: number, wookiee?: boolean): Promise<any> {
+    public getPlanetById(planetId: number, wookiee?: boolean): any {
         try {
-            return await axios.get(
+            return axios.get(
                 environment.swapi_url + this.subUrls.PLANET.replace('${id}', planetId.toString()) + (wookiee ? '?format=wookiee' : ''))
                 .then((response: AxiosResponse) => {
                     if (wookiee) {

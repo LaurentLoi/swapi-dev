@@ -10,17 +10,20 @@ Check [Swapi-dev README](README.legacy.md) for exercise instructions.
 
 Clone the repo & run a cmd line.
 
-- > $ npm i
+- > .../swapi-dev> npm i
 
 ---
 
 #### CLI:
 
-- > $ npm start
+- > .../swapi-dev> npm start
 
 Or:
 
-- > $ npm run compile
+- > .../swapi-dev> npm run compile
 
-- > $ node dist/index.js
+- > .../swapi-dev> node dist/index.js
 
+Base usage:
+
+> .../swapi-dev> npm start 6

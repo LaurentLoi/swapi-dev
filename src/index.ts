@@ -4,5 +4,5 @@ import { Container } from 'typedi';
 import { Cli } from './cli/cli';
 
 (() => {
-    Container.get(Cli).run().then();
+    Container.get(Cli).run();
 })();

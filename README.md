@@ -24,6 +24,10 @@ Or:
 
 - > .../swapi-dev> node dist/index.js
 
-Base usage:
+### Base usage:
 
 > .../swapi-dev> npm start 6
+
+### Help:
+
+> .../swapi-dev> npm start help
